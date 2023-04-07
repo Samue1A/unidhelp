@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../static/greet.css">
+    <link rel="stylesheet" href="../static/defaulty.css">
+    <title>Document</title>
+</head>
+<body>
+    <div id="h1"><h1>{{uni}} Notes:</h1></div>
+    <div class="cols">
+        <div class="col1">
+            {% for index in range(0, headers | length)%}
+                {% if text[index] %}
+                    <h2>{{ headers[index] }}</h2>
+                    <div class="spaceem">
+                        {% for item in text[index] %}
+                            {% if item | string != 'Story 1 Story 2 Story 3 Story 4 Story 5'%}
+                                <p> - {{ item }}</p>
+                            {%endif%}
+                        {% endfor %}
+                    </div class="spaceem">
+                {%endif%}
+            {% endfor %}
+        </div>
+        <div class="cl2">
+            {% for index in range(0, useStuffHead | length)%}
+                {% if useStuff[index] %}
+                    <h2>{{ useStuffHead[index] }}</h2>
+                    {% if useStuffHead[index] == 'Sources' %}
+                        <div class="spaceem">
+                            {% for i in useStuff[index] %}
+                                <a target="_blank" href={{i}}><p>{{ i }}</p></a>
+                            {% endfor %}
+                        </div class="spaceem">
+                    {%elif useStuffHead[index] =='Document' %}
+                        <div id="download"><a href="../static/{{uni}}Research.docx" download="{{uni}}Research.docx">Download as a word file</a></div>
+                    {% elif useStuffHead[index] == 'Near You'%}
+                        <div class="spaceem">
+                            {%for place in useStuff[index]%}
+                                <div class="collapsible">
+                                    <div class="svg_contain">
+                                        <h3>{{place}} </h3>
+                                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><!--! Font Awesome Pro 6.2.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2022 Fonticons, Inc. --><path d="M137.4 374.6c12.5 12.5 32.8 12.5 45.3 0l128-128c9.2-9.2 11.9-22.9 6.9-34.9s-16.6-19.8-29.6-19.8L32 192c-12.9 0-24.6 7.8-29.6 19.8s-2.2 25.7 6.9 34.9l128 128z"/></svg>
+                                    </div>
+                                    <div class="collapsible__content">
+                                        {%for item in useStuff[index][place]%}
+                                            {% if item == "nothing found"%}
+                                                <p>{{item}}</p>
+                                            {%else%}
+                                                {%for key in item%}
+                                                    <p class="location_info">{{key}}: {{item[key]}}</p>
+                                                {%endfor%}
+                                            {%endif%}
+                                            <p><br></p>
+                                        {%endfor%}
+                                    </div>
+                                </div>
+                            {%endfor%}
+                        </div class="spaceem">
+                    {% elif not useStuff[index] is string %}
+                        <div class="spaceem">
+                            {% for item in useStuff[index] %}
+                                <p> - {{ item }}</p>
+                            {% endfor %}
+                        </div class="spaceem">
+                        
+                    {% elif useStuffHead[index] == 'Courses' or useStuffHead[index] == 'Majors'  %}
+                        <div class="spaceem">
+                            {% if country == 'UK' %}
+                                <p>Here is a link with a list of possible courses: <a href="{{useStuff[index]}}">{{useStuff[index]}}</a></p>
+                            {% else %}
+                                <p>Here is a link with a list of possible majors: <a href="{{useStuff[index]}}">{{useStuff[index]}}</a></p>
+                            {% endif %}
+                        </div class="spaceem">
+                    {%else%}
+                        <div class="spaceem">
+                            <p>    {{ useStuff[index].replace((uni + ' University /'), '') }}</p>
+                        </div class="spaceem">
+                    {%endif%}
+                {%endif%}
+            {% endfor %}
+        </div>
+    </div>
+
+    <script src="../static/mainy.js"></script>
+</body>
+</html>
